@@ -168,4 +168,9 @@ update instructor
 select * from department
 update department
 	set budget = budget * 1.1
-	where dept_name = 'Biology' and dept_name = 'Music';
+	where dept_name = 'Biology' or dept_name = 'Music'; '''or porque esta mondà no se cumple con y, imbecil'''
+	
+	
+'''crear una columna nueva llamada prueba con el tipo de dato varchar de 20 caracteres con la tabla instructor'''
+alter table instructor add prueba varchar(20)
+select * from instructor
