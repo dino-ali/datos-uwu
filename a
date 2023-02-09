@@ -132,7 +132,7 @@ select instructor.name, department.dept_name, department.budget
 	
 '''para ponerlo como variable :D'''
 select i.name, d.dept_name, d.budget
-	from instructor as i, department as d
+	from instructor as i, department as d;
 
 '''para que no se repitan datos entre dos tablas'''
 select name, instructor.dept_name, building
@@ -151,9 +151,9 @@ select dept_name
 '''consultar nombre y presupuesto de los departamentos que comienzan por la letra S'''
 select department.dept_name, department.budget
 	from department
-	where building like '%P';
+	where building like '%S';
 	
 '''consultar el nombre del instructor, el nombre del curso, el nombre del semestre y el año cuando se oriento el curso'''
-select i.ID, co.title , se.semester, t.year
-	from instructor as i, course as co, section as se, teaches as t
-	where i.ID = t.ID and t.course_id = se.course_id;
+select i.name, co.title , t.semester, t.year
+	from instructor as i, course as co, teaches as t
+	where i.ID = t.ID and co.course_id = t.course_id;
