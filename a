@@ -174,3 +174,14 @@ update department
 '''crear una columna nueva llamada prueba con el tipo de dato varchar de 20 caracteres con la tabla instructor'''
 alter table instructor add prueba varchar(20)
 select * from instructor
+
+---  borra la columna
+alter table instructor drop prueba;
+select * from instructor
+
+'''para relacionar una tabla con el mismo atributo debe tener el mismo tipo de dato.'''
+
+'''llenar el valor hola a la tupla de instructor "einstein" en la columna prueba'''
+update instructor
+	set prueba = 'hola'
+	where instructor.name = 'Einstein';
