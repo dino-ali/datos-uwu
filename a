@@ -157,3 +157,15 @@ select department.dept_name, department.budget
 select i.name, co.title , t.semester, t.year
 	from instructor as i, course as co, teaches as t
 	where i.ID = t.ID and co.course_id = t.course_id;
+
+''' actualizar el valor de algun atributo '''
+select * from instructor
+update instructor
+	set salary= salary * 1.05
+	where salary < 70000;
+	
+'''actualizar el presupuesto incrementando en un 10% los valores del departamento de musica y biologia'''
+select * from department
+update department
+	set budget = budget * 1.1
+	where dept_name = 'Biology' and dept_name = 'Music';
