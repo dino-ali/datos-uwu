@@ -246,3 +246,7 @@ select course_id
 select name
 	from instructor
 	where salary is null;
+	
+select i.name, i.dept_name
+	from instructor as i
+	where hora_ingreso is null;
