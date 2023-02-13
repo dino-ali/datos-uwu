@@ -242,7 +242,9 @@ except
 select course_id
 	from section
 	where semester = 'Spring' and year = 2010;
-	
+
+
+'''filtrar datos nulos'''
 select name
 	from instructor
 	where salary is null;
