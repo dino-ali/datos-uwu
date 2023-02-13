@@ -186,7 +186,7 @@ update instructor
 	set prueba = 'hola'
 	where instructor.name = 'Einstein';
 
-
+																					'''Ejercicios'''
 '''1) Crear una nueva columna llamada fecha_contratacion en la tabla instructor.'''
 alter table instructor add fecha_contratacion date
 select * from instructor
@@ -201,14 +201,48 @@ update instructor
  	where instructor.name = 'Gold' or instructor.name = 'Mozart' or instructor.name = 'Kim';
 
 '''4) Tomando como referencia las tablas curso y departamento, consultar las columnas: codigo del curso, titulo, creditos y edificio donde se orientan los cursos.'''
-select course_id, title, credits, building from course, department
+select c.course_id, c.title, c.credits, d.building 
+	from course as c, department as d
+	where c.dept_name = d.dept_name
 
-
+'''ordena por llave'''
 select name
 	from instructor
 	where dept_name = 'Physics'
 	order by name;
-	
+
+'''le da el orden que yo quiero'''
 select *
 	from instructor
-	order by salary desc, name asc; '''vaga'''
+	order by salary desc, name asc;
+
+'''union'''
+select course_id
+	from section
+	where semester = 'Fall' and year = 2009
+union
+select course_id
+	from section
+	where semester = 'Spring' and year = 2010;
+	
+'''interseccion'''
+select course_id
+	from section
+	where semester = 'Fall' and year = 2009
+intersect
+select course_id
+	from section
+	where semester = 'Spring' and year = 2010;
+	
+'''diferencia'''
+select course_id
+	from section
+	where semester = 'Fall' and year = 2009
+except
+select course_id
+	from section
+	where semester = 'Spring' and year = 2010;
+	
+select name
+	from instructor
+	where salary is null;
