@@ -176,7 +176,7 @@ alter table instructor add prueba varchar(20)
 select * from instructor
 
 ---  borra la columna
-alter table instructor drop prueba;
+alter table instructor drop fecha_contratacion;
 select * from instructor
 
 '''para relacionar una tabla con el mismo atributo debe tener el mismo tipo de dato.'''
@@ -185,3 +185,19 @@ select * from instructor
 update instructor
 	set prueba = 'hola'
 	where instructor.name = 'Einstein';
+
+
+'''1) Crear una nueva columna llamada fecha_contratacion en la tabla instructor.'''
+alter table instructor add fecha_contratacion date
+select * from instructor
+
+'''2) Crear una nueva columna llamada hora_ingreso en la tabla instructor. '''
+alter table instructor add hora_ingreso time
+select * from instructor
+
+'''3) Llenar en las nuevas columnas datos para los instructores: Gold, Mozart y Kim.'''
+update instructor
+	set fecha_contratacion = '11/5/2022', hora_ingreso = '12:00'
+ 	where instructor.name = 'Gold' or instructor.name = 'Mozart' or instructor.name = 'Kim';
+
+'''4) Tomando como referencia las tablas curso y departamento, consultar las columnas: codigo del curso, titulo, creditos y edificio donde se orientan los cursos.'''
