@@ -201,3 +201,14 @@ update instructor
  	where instructor.name = 'Gold' or instructor.name = 'Mozart' or instructor.name = 'Kim';
 
 '''4) Tomando como referencia las tablas curso y departamento, consultar las columnas: codigo del curso, titulo, creditos y edificio donde se orientan los cursos.'''
+select course_id, title, credits, building from course, department
+
+
+select name
+	from instructor
+	where dept_name = 'Physics'
+	order by name;
+	
+select *
+	from instructor
+	order by salary desc, name asc; '''vaga'''
