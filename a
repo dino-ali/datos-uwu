@@ -256,3 +256,57 @@ select i.name, i.dept_name
 '''
 acá falta algo xd.
 '''
+
+'''buscar no se que xuxa'''
+select name, salary
+	from instructor
+	where salary < (select salary 
+				   from instructor
+				   where name = 'Califieri')
+
+'''in'''
+select distinct course_id
+from section
+where semester = 'Fall' and year = 2009 and course_id in (select course_id
+														  from section
+														  where semester = 'Spring' and year = 2010)
+														  
+'''not in'''
+select distinct course_id
+from section
+where semester = 'Fall' and year = 2009 and course_id not in (select course_id
+															  from section
+															  where semester = 'Spring' and year = 2010)
+'''some'''																
+select name, salary, dept_name
+from instructor
+where salary > some (select salary
+					from instructor
+					where dept_name = 'dp') '''todo el parentesis debe ser verdadero para que toda la consulta sea verdadera y funcione'''
+					
+'''all'''	
+select d.dept_name, d.budget
+from department as d
+where d.budget > all(select d.budget
+					from department as d
+					where d.building = 'Taylor') '''no tengo presupuestos mayores'''
+					
+'''exists'''
+select course_id
+	from section as s
+	where semester = 'Fall' and year = 2009 and
+		exists(select *
+			  from section as t
+			  where semester = 'Spring' and year = 2010 and s.course_id = t.course_id)
+'''evidencias uwuuwuwuwu
+- consulta externa: salen 3 tuplas "CS-101", "CS-347" y "PHY-101".
+- consulta interna: no salen tuplas porque "s" no està declarada, y aun mas interna sin la igualdad salen: "CS-101", "CS-315", "CS-319", "CS-319", "FIN-201", "HIS-351" y "MU-199".
+- consulta completa: solo sale "CS-101". '''
+
+'''not exists'''
+select course_id
+	from section as s
+	where semester = 'Fall' and year = 2009 and
+		not exists(select *
+			  from section as t
+			  where semester = 'Spring' and year = 2010 and s.course_id = t.course_id)
