@@ -310,3 +310,11 @@ select course_id
 		not exists(select *
 			  from section as t
 			  where semester = 'Spring' and year = 2010 and s.course_id = t.course_id)
+			  
+'''los datos de los instructores que no han dictado clase'''
+select *
+	from instructor
+	where not exists(select * 
+					 from teaches
+					where instructor.ID = teaches.ID)
+	
