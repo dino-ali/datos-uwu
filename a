@@ -252,3 +252,7 @@ select name
 select i.name, i.dept_name
 	from instructor as i
 	where hora_ingreso is null;
+
+'''
+acá falta algo xd.
+'''
