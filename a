@@ -399,3 +399,17 @@ insert into takes values (98765, 'CS-101', 1, 'Fall', 2009, 'C');
 insert into takes values (98765, 'CS-315', 1, 'Spring', 2010, 'B');
 insert into takes values (98988, 'BIO-101', 1, 'Summer', 2009 ,'A');
 insert into takes values (98988, 'BIO-301', 1, 'Summer', 2010, null);
+
+select dept_name, sum(tot_cred)
+from student
+group by dept_name
+having sum(tot_cred) > 200
+		 
+select distinct s.ID, s.name
+	from student as s
+	where not exists((select course_id
+					from course
+					where dept_name = 'Biology')
+					except(select t.course_id
+						  from takes as t
+						  where s.id = t.id))
