@@ -318,3 +318,40 @@ select *
 					 from teaches
 					where instructor.ID = teaches.ID)
 	
+select * 
+	from course 
+	where dept_name in (select dept_name 
+						from instructor 
+						where dept_name = 'Physics');
+
+select * 
+from teaches 
+where id in (select id 
+			 from instructor 
+			 where dept_name = 'Physics');
+
+select name 
+	from instructor 
+	where id in (select id 
+				 from teaches);
+
+select name 
+	from instructor 
+	where exists (select * 
+				  from teaches);
+				  
+create table student
+(ID varchar (5),
+name varchar (20) not null,
+dept_name varchar (20),
+tot_cred numeric (3,0),
+primary key (ID),
+foreign key (dept_name) references department
+);
+
+insert into student values(00128, 'Zhang', 'Comp. Sci.', 102)
+insert into student values(12345, 'Sahankar', 'Comp. Sci.', 32)
+insert into student values(19991, 'Brandt', 'History', 80)
+insert into student values(23121, 'Chavez', 'Finance', 110)
+insert into student values(44553, 'Peltier', 'Physics', 56)
+
