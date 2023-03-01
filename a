@@ -413,3 +413,87 @@ select distinct s.ID, s.name
 					except(select t.course_id
 						  from takes as t
 						  where s.id = t.id))
+-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+-- SUBCONSULTAS
+
+select dept_name, avg_salary from (select dept_name, avg(salary)
+								  from instructor 
+								  group by dept_name)
+								  as dept_avg (dept_name, avg_salary)
+							where avg_salary > 42000;
+							
+
+select building, sum_budg from (select building, sum(budget)
+							   from department
+							   group by building)
+							   as sum_pres (building, sum_budg)
+						   where sum_budg > 150000;
+						   
+
+
+select semester, cant_course from (select semester, count(course_id)
+							   from teaches
+							   group by semester)
+							   as ct_cursos (semester, cant_course)
+						     where cant_course > 8;
+							 
+select dept_name, min(min_pres) from (select dept_name, sum(budget)
+					 from department
+					 group by dept_name)
+					 as mn_prs (dept_name, min_pres)
+
+-- EXIST 
+
+select course_id 
+from section as S
+where semester = 'Fall' and year = 2009 and
+exists(select * from section as T
+	  where semester = 'Spring' and year = 2010 and
+	  		S.course_id = T.course_id);
+			    
+				
+select * from instructor as i where not exists(select * from teaches as t where t.id = i.id);
+
+--SUBCONSULTAS CON DELETE
+
+delete from teaches 
+where course_id in (select course_id
+				   from course
+				   where course_id = 'CS-101');
+				   
+select * from teaches
+
+
+-- SUBCONSULTAS CON INSERT INTO
+
+create table department_copia(
+dept_name varchar(20),
+building varchar(15),
+budget numeric(12,2),
+primary key (dept_name));
+
+insert into department_copia
+select * from department
+
+select * from department_copia
+
+-- SUBCONSULTAS CON UPDATE
+
+update instructor set salary = salary*1.05 where salary < (select avg(salary) from instructor);
+
+-- ejercicios:  1) eliminar las tuplas de los cursos orientados en el a챰o 2009 y en primavera de la tabla teaches (con subconsulta)
+
+delete from teaches 
+where course_id in (select course_id
+				   from section
+				   where semester = 'Spring' and year = 2009);
+				   
+select * from teaches
+
+
+-- 2) actualizar los presupuestos de los departamentos cuyo edificio es taylor, en un 100%
+update department set budget = 2*budget where building in (select building from department where building = 'Taylor');
+
+select * from department
+
+-- BETWEEN: buscar entre rangos de numeros, fechas, horas
