@@ -497,3 +497,14 @@ update department set budget = 2*budget where building in (select building from 
 select * from department
 
 -- BETWEEN: buscar entre rangos de numeros, fechas, horas
+
+
+'''join'''
+select *
+from student join takes on student.ID = takes.ID
+
+select *
+from instructor join teaches on instructor.ID = teaches.ID
+
+'''natural left outer join'''
+select * from student natural left outer join takes
