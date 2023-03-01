@@ -523,3 +523,4 @@ select * from student natural join takes
 '''consultar todos los datos de la tabla cursos registrados o tomados por los estudiantes en primavera'''
 select * from student natural full outer join takes where semester = 'Spring'
 
+select * from student natural full outer join takes where semester != 'Spring'
