@@ -524,3 +524,26 @@ select * from student natural join takes
 select * from student natural full outer join takes where semester = 'Spring'
 
 select * from student natural full outer join takes where semester != 'Spring'
+
+'''crear vistas union o alguna chota asi'''
+
+create view faculty as
+select ID, name, dept_name
+from instructor
+
+select * from faculty
+drop view estudiantes_calificacion_A
+
+create view instructores_CS_190 as
+select instructor.*
+from instructor, teaches
+where instructor.ID = teaches.ID
+
+select * from instructores_CS_190
+
+create view estudiantes_calificacion_A as
+select student.*, takes.grade
+from student, takes
+where student.ID = takes.ID and takes.grade = 'A'
+
+select * from estudiantes_calificacion_A
