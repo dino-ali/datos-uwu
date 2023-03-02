@@ -542,8 +542,23 @@ where instructor.ID = teaches.ID
 select * from instructores_CS_190
 
 create view estudiantes_calificacion_A as
-select student.*, takes.grade
+select student.*, takes.grade, takes.course_ID
 from student, takes
-where student.ID = takes.ID and takes.grade = 'A'
+where student.ID = takes.ID 
+	and takes.grade = 'A'
 
 select * from estudiantes_calificacion_A
+
+create view physics_fall_2009 as
+select co.course_id, sec_id, building, room_number
+from course as co, section as se
+where co.course_id = se.course_id
+	and co.dept_name = 'Physics'
+	and se.semester = 'Fall'
+	and se.year = '2009'
+	
+select course_id
+from physics_fall_2009
+where building = 'Watson'
+
+insert into faculty values('30765', 'Green', 'Music')
