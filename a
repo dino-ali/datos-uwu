@@ -562,3 +562,112 @@ from physics_fall_2009
 where building = 'Watson'
 
 insert into faculty values('30765', 'Green', 'Music')
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+'''Transacciones'''
+select * from instructor
+
+begin -- iniciar transaccion
+insert into instructor values (3333, 'Jorge Ramirez', 'Music', 100000)
+rollback  -- cancelar transaccion
+commit -- confirmar transaccion
+
+begin
+update instructor
+	set salary = salary * 1.10
+rollback
+	
+begin
+delete from instructor 
+	where name = 'Jorge Ramirez'
+commit
+
+select * from department;
+begin
+update department 
+	set budget = budget * 1.20 
+	where dept_name = 'Comp. Sci'
+commit
+
+begin
+update department 
+	set building = 'Beethoven' 
+	where dept_name = 'Music';
+rollback
+
+'''RESTRICCIONES DE INTEGRIDAD'''
+
+'''Unique'''
+select * from instructor;
+alter table instructor 
+add mail varchar(20) unique;
+
+update instructor 
+set mail = 'redbull@gmail.com' 
+where name = 'Einstein';
+
+update instructor 
+set mail = 'einstein@gmail.com' 
+where name = 'Green';
+
+'''Check'''
+
+alter table instructor 
+add constraint min_salary
+CHECK(salary > 0);
+
+update instructor 
+set salary = 50000 
+where name = 'Green';
+
+select * from instructor;
+
+'''Ejercicios:'''
+-- 1) Modificar la tabla cursos para que el numero de creditos sea superior a 0
+
+alter table course 
+add constraint min_credits
+CHECK(credits > 0);
+
+select * from course;
+
+update course 
+	set credits = -1 
+	where title = 'Genetics'
+
+-- 2)Añadir una nueva columna a la tabla cursos llamada area y tiene que ser unica
+alter table course 
+add area varchar(20) unique
+
+update course 
+	set area = 'Ciencias' 
+	where title = 'Genetics'
+
+select * from course;
+
+update course 
+set area = 'Ciencias' 
+where title = 'Robotics'
+
+'''ejercicio: nueva colunma: fecha_nacimiento. y a 3 instructores entre enero y marzo del 80'''
+alter table instructor 
+add fecha_nacimiento date
+
+update instructor 
+set fecha_nacimiento = '16/01/1980' 
+where name = 'Kim'
+
+update instructor 
+set fecha_nacimiento = '18/02/1980' 
+where name = 'Gold'
+
+update instructor 
+set fecha_nacimiento = '09/03/1980' 
+where name = 'Wu'
+
+update instructor 
+set fecha_nacimiento = '02/09/1980' 
+where name = 'Mozart'
+
+select *
+from instructor
+where fecha_nacimiento between '01/01/1980' and '31/03/1980'
