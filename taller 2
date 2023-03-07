@@ -1,0 +1,44 @@
+-- a. El nombre y fecha de nacimiento de los actores mayores de edad, que hayan protagonizado películas después del año 2020 y con edad superior que alguno de los actores mujeres. 
+select distinct nombre, fecha_nacimiento
+from actor as a
+where a.id in (select a.id from pelicula as p, actor as a, protagonizar as pro
+			   where a.id = pro.id_actor 
+			   and pro.codigo_pelicula = p.codigo
+			   and ano > 2020
+			   and (((CURRENT_DATE - fecha_nacimiento)/365)>18)
+			   and ((CURRENT_DATE - fecha_nacimiento)/365)> some (select ((CURRENT_DATE - fecha_nacimiento)/365) 
+																  from actor
+																  where genero = 'Mujer'));
+
+-- b. Los datos de los productores que nunca han producido películas.
+select *
+from productor
+where codigo not in (select codigo_productor
+from producir)
+
+-- c. Todos los datos de los productores que han registrado películas con la máxima duración.
+select productor.*
+from(productor right outer join producir on producir.codigo_productor = productor.codigo) right outer join pelicula on producir.codigo_pelicula = pelicula.codigo
+where duracion in (select max(duracion)
+from pelicula)
+
+-- d. Todos los datos de los actores que han protagonizado películas registradas por el productor "Patrik Andersson"
+select actor.*
+from(actor right outer join protagonizar on actor.id =  protagonizar.id_actor) right outer join pelicula on protagonizar.codigo_pelicula = pelicula.codigo where pelicula.codigo in (select pelicula.codigo from(productor right outer join producir on producir.codigo_productor = productor.codigo) right outer join pelicula on producir.codigo_pelicula = pelicula.codigo where productor.nombre = 'Patrik Andersson')
+select * from productor
+
+-- e. El título y la duración de las películas protagonizadas por el actor Anya Taylor-Joy., cuya duración supera alguna duración de las películas protagonizadas por Bruce Willis.
+select * from actor
+
+select pelicula.titulo, pelicula.duracion
+from (pelicula right outer join protagonizar on pelicula.codigo =  protagonizar.codigo_pelicula) right outer join actor on actor.id = protagonizar.id_actor where actor.nombre = 'Anya Taylor-Joy.'
+
+-- f. Promedio de edades de los actores de aquel género de películas donde la edad promedio es superior a 20. 
+select *
+from(select pelicula.genero, avg((current_date - fecha_nacimiento)/365)
+	from (pelicula right outer join protagonizar on pelicula.codigo =  protagonizar.codigo_pelicula) right outer join actor on actor.id = protagonizar.id_actor
+	group by pelicula.genero) as pata(genero, eda)
+where eda>26
+
+insert into actor values (7, 'Miyamizu Mitsuha', 'Mujer', '28/4/1996')
+insert into protagonizar values(1, 7)
