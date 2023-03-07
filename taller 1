@@ -1,0 +1,92 @@
+create table pelicula(
+  codigo int,
+  titulo varchar(30) not null,
+  estudio int,
+  ano int,
+  duracion int,
+  genero varchar(30),
+  presupuesto numeric(10, 2),
+  primary key(codigo));
+
+create table productor(
+  codigo int,
+  nombre varchar(30) not null,
+  primary key(codigo));
+
+create table actor(
+  id int,
+  nombre varchar(30) not null,
+  genero varchar(30),
+  fecha_nacimiento date,
+  primary key(id));
+
+create table producir(
+  codigo_pelicula int,
+  codigo_productor int,
+  primary key(codigo_pelicula, codigo_productor),
+  foreign key (codigo_pelicula) references pelicula(codigo),
+  foreign key (codigo_productor) references productor(codigo)
+ );
+
+create table trailer(
+  codigo int,
+  duracion int,
+  codigo_pelicula int,
+  primary key (codigo, codigo_pelicula),  
+  foreign key (codigo_pelicula) references pelicula(codigo)
+ );
+
+create table protagonizar(
+  codigo_pelicula int,
+  id_actor int,
+  primary key(codigo_pelicula, id_actor),
+  foreign key (codigo_pelicula) references pelicula(codigo),
+  foreign key (id_actor) references actor(id)
+);
+
+insert into pelicula values (1, 'your name', 1, 2016, 106, 'animacion', 2703360132);
+insert into pelicula values (2, 'el viaje de chihiro', 2, 2001, 125, 'fantasia', 274925095);
+insert into pelicula values (3, 'mi vecino totoro', 2, 1988, 86, 'animacion', 30574632);
+insert into pelicula values (4, 'la princesa mononoke', 2, 1997, 134, 'fantasia', 100000000);
+insert into pelicula values (5, 'midsommar', 3, 2019, 147, 'terror', 42251838);
+insert into pelicula values (6, 'fragmentado', 4, 2017, 117, 'terror', 278454358);
+
+insert into productor values (1, 'makoto shinkai');
+insert into productor values (2, 'toshio suzuki');
+insert into productor values (3, 'hayao miyazaki');
+insert into productor values (4, 'lars knudsen');
+insert into productor values (5, 'patrik andersson');
+insert into productor values (6, 'marc bienstock m.');
+
+insert into actor values (1, 'florence pugh', 'mujer', '3/1/1996');
+insert into actor values (2, 'will poulter', 'hombre', '28/1/1993');
+insert into actor values (3, 'jack reynor', 'hombre', '23/1/1992');
+insert into actor values (4, 'isabelle grill', 'mujer', '20/9/1997');
+insert into actor values (5, 'james mcavoy', 'hombre', '21/4/1979');
+insert into actor values (6, 'anya taylor-joy.', 'mujer', '16/4/1996');
+
+insert into trailer values (1, 5, 1);
+insert into trailer values (2, 2, 1);
+insert into trailer values (3, 7, 2);
+insert into trailer values (4, 5, 2);
+insert into trailer values (5, 2, 3);
+insert into trailer values (6, 3, 3);
+insert into trailer values (7, 5, 4);
+insert into trailer values (8, 10, 5);
+insert into trailer values (9, 2, 5);
+insert into trailer values (10, 6, 6);
+
+insert into producir values (1, 1);
+insert into producir values (2, 2);
+insert into producir values (3, 3);
+insert into producir values (4, 2);
+insert into producir values (5, 4);
+insert into producir values (5, 5);
+insert into producir values (6, 6);
+	
+insert into protagonizar values (5, 1);
+insert into protagonizar values (5, 2);
+insert into protagonizar values (5, 3);
+insert into protagonizar values (5, 4);
+insert into protagonizar values (6, 5);
+insert into protagonizar values (6, 6);
