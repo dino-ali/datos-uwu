@@ -649,25 +649,41 @@ set area = 'Ciencias'
 where title = 'Robotics'
 
 '''ejercicio: nueva colunma: fecha_nacimiento. y a 3 instructores entre enero y marzo del 80'''
-alter table instructor 
-add fecha_nacimiento date
+alter table instructor add fecha_nacimiento date
 
-update instructor 
-set fecha_nacimiento = '16/01/1980' 
-where name = 'Kim'
-
-update instructor 
-set fecha_nacimiento = '18/02/1980' 
-where name = 'Gold'
-
-update instructor 
-set fecha_nacimiento = '09/03/1980' 
-where name = 'Wu'
-
-update instructor 
-set fecha_nacimiento = '02/09/1980' 
-where name = 'Mozart'
+update instructor set fecha_nacimiento = '16/01/1980' where name = 'Srinivasan'
+update instructor set fecha_nacimiento = '18/02/1980' where name = 'Wu'
+update instructor set fecha_nacimiento = '09/03/1980' where name = 'Mozart'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Einstein'
+update instructor set fecha_nacimiento = '09/04/1980' where name = 'El Said'
+update instructor set fecha_nacimiento = '18/02/1980' where name = 'Gold'
+update instructor set fecha_nacimiento = '09/03/1980' where name = 'Katz'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Califieri'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Singh'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Crick'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Brandt'
+update instructor set fecha_nacimiento = '02/09/1980' where name = 'Kim'
 
 select *
 from instructor
-where fecha_nacimiento between '01/01/1980' and '31/03/1980'
+where fecha_nacimiento 
+between '01/01/1980' and '31/03/1980'
+
+'''nombre del instructor, nombre del departamento, dia de nacimiento, mes de nacimiento y año'''
+select name, dept_name, extract(day from fecha_nacimiento) as dia, extract(month from fecha_nacimiento) as mes, extract(year from fecha_nacimiento) as ano
+from instructor
+
+
+'''valores por defecto'''
+'''ejercicio: modificar la tabla prueba para que tenga por defecto en el salario el valor de 10000'''
+select * from prueba
+'''7 enteros, 0 decimales'''
+create table prueba(
+nombre varchar (30) not null,
+salario numeric (7, 0) default 1160000, 
+primary key(nombre)
+);
+
+insert into prueba values ('Pedro el escamoso')
+insert into prueba values ('Josefa la burrita')
+insert into prueba values ('Peppa la cerdita')
