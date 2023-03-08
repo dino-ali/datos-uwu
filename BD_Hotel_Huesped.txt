@@ -1,0 +1,69 @@
+CREATE TABLE administrador(
+	cedula integer,
+	nombre varchar(30),
+	profesion varchar(40),
+	salario numeric(10,2),
+	PRIMARY KEY(cedula)
+);
+CREATE TABLE hotel(
+	nit integer,
+	nombre varchar(30) not null,
+	direccion varchar(40),
+	telefono varchar(15),
+	numero_habitaciones int,
+	PRIMARY KEY(nit)
+);
+CREATE TABLE huesped(
+	cedula integer,
+	nombre varchar(30),
+	PRIMARY KEY(cedula)
+);
+CREATE TABLE reserva(
+	codigo integer,
+	fecha_ingreso date,
+	hora_ingreso time,
+	numero_dias integer,
+	total_reserva numeric(10,2),
+	cedula_huesped integer,
+	cedula_administrador integer,
+	nit_hotel integer,
+	PRIMARY KEY(codigo),
+	FOREIGN key(cedula_huesped) REFERENCES huesped,
+	FOREIGN key(cedula_administrador) REFERENCES administrador,
+	FOREIGN key(nit_hotel) REFERENCES hotel
+);
+
+
+insert into administrador values(9367213, 'Luis Guillermo Hurtado Perez', 'Contador', 4500000);
+insert into administrador values(9966772, 'Lina Maria Avila Moreno', 'Abogada', 6100000);
+insert into administrador values(7011125, 'Sofia Garcia Gomez', 'Administradora', 5250000);
+insert into administrador values(6823564, 'Alberto Lagos Romero', 'Contador', 5250000);
+insert into administrador values(3725410, 'Juan Andres Llanos Rios', 'Contador', 8100000);
+
+
+insert into hotel values(44556, 'Sol y Arena', 'Carrera 93 #6B - 55', '3126758724', 24);
+insert into hotel values(33221, 'La Orquidea', 'Calle 82 # 11-32', '3154216743', 42);
+insert into hotel values(77449, 'El Turista', 'Diagonal 23 # 56-97', '3209176576', 30);
+insert into hotel values(83551, 'La Palma', 'Carrera 55A #124-78', '3154447895', 10);
+insert into hotel values(90365, 'El Bosque', 'Avenida Villavicencio Km. 55', '3103247891', 15);
+
+insert into huesped values(5027812, 'Ana Rios Gomez');
+insert into huesped values(421563, 'Maria Garcia Robledo');
+insert into huesped values(3112987, 'Amalia Londoño Perez');
+insert into huesped values(4887449, 'Beatriz Mendieta Afanador');
+insert into huesped values(7234987, 'Luciano Arismendi');
+insert into huesped values(4876123, 'Rodrigo Cadena Linares');
+insert into huesped values(4781239, 'Abelardo Diaz Jimenez');
+insert into huesped values(8073219, 'Jose Alejandro Fonseca');
+insert into huesped values(5135687, 'Andres Jimenez Amaya');
+insert into huesped values(743684, 'Luis Miguel Arbelaez');
+
+
+insert into reserva values(10, '6/1/2023', '9:25', 3, 5350000, 4887449, 9367213, 77449);
+insert into reserva values(11, '11/1/2023', '10:40', 8, 13600000, 4876123, 9966772, 44556);
+insert into reserva values(12, '17/1/2023', '15:30', 5, 8500000, 7234987, 9367213, 77449);
+insert into reserva values(13, '26/1/2023', '17:20', 10, 23000000, 5027812, 9966772, 33221);
+insert into reserva values(14, '26/1/2023', '19:15', 6, 4100000, 5135687, 3725410, 83551);
+insert into reserva values(15, '26/1/2023', '20:00', 4, 1900000, 4781239, 3725410, 44556);
+insert into reserva values(16, '3/2/2023', '8:00', 5, 4300000, 743684, 7011125, 33221);
+insert into reserva values(17, '3/2/2023', '10:00', 8, 17200000, 8073219, 9966772, 44556);
