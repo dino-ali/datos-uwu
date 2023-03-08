@@ -29,9 +29,11 @@ select * from productor
 
 -- e. El título y la duración de las películas protagonizadas por el actor Anya Taylor-Joy., cuya duración supera alguna duración de las películas protagonizadas por Bruce Willis.
 select * from actor
-
-select pelicula.titulo, pelicula.duracion
-from (pelicula right outer join protagonizar on pelicula.codigo =  protagonizar.codigo_pelicula) right outer join actor on actor.id = protagonizar.id_actor where actor.nombre = 'Anya Taylor-Joy.'
+select pelicula.titulo, pelicula.duracion 
+from (pelicula right outer join protagonizar on pelicula.codigo = protagonizar.codigo_pelicula) right outer join actor on protagonizar.id_actor = actor.id
+	where actor.nombre = 'Will Poulter' and pelicula.duracion > some (select pelicula.duracion 
+	from (pelicula right outer join protagonizar on pelicula.codigo = protagonizar.codigo_pelicula) right outer join actor on protagonizar.id_actor = actor.id
+	where actor.nombre = 'Anya Taylor-Joy.')
 
 -- f. Promedio de edades de los actores de aquel género de películas donde la edad promedio es superior a 20. 
 select *
