@@ -1,0 +1,15 @@
+'''a. Los datos de los administradores que tengan un salario superior que cada uno de los administradores que atendieron reservas del hotel Sol y Arena.'''
+select administrador.*
+from (select administrador.*
+	  from administrador 
+	  where salario > (administrador right outer join reserva on administrador.cedula = reserva.cedula_administrador) right outer join hotel on reserva.nit_hotel = hotel.nit
+	  where hotel.nombre = 'Sol y Arena') as aja
+
+'''b. Datos de los hoteles que atendieron reservas entre las 9:00 a.m. y 11:00 a.m. y con número de días de reserva superior a 5.'''
+select distinct hotel.*
+from hotel right join reserva on reserva.nit_hotel = hotel.nit 
+where reserva.hora_ingreso between '9:00' and '11:00' 
+and reserva.numero_dias > 5
+
+
+
