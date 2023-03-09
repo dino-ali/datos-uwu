@@ -67,3 +67,28 @@ foreign key (ID) references student
 );
 
 '''aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'''
+select * from instructor
+
+create role auxiliar with login password '123*'
+
+grant select on instructor to auxiliar
+grant select, insert, update, delete
+on department to auxiliar
+
+grant select, delete on department to auxiliar
+revoke select on department to auxiliar
+
+
+'''
+paso 1
+paso 4: desde la opcion servers, click derecho, registrar
+paso 5: llenar los siguientes datos:
+	a. name: nombre del nuevo servidor
+	b. click en la pestaña de conexiòn
+	c. escribir en el nombre de host: localhost
+	d. confirmar que el puerto sea 5432
+	e. maintenance database: autorizacion
+	f. username: el nombre del rol que cree
+	g. password: la contraseña que le puse al rol
+	h. guardar
+'''
