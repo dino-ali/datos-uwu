@@ -71,7 +71,7 @@ insert into course values ('MU-199', 'Music Video Production', 'Music',  3);
 insert into course values ('PHY-101', 'Physical Principles', 'Physics',  4);
 
 select * from instructor;
-insert into instructor values (10101, 'Srinivasan', 'Comp. Sci.',  65000);
+40
 insert into instructor values (12121, 'Wu', 'Finance',  90000);
 insert into instructor values (15151, 'Mozart', 'Music',  40000);
 insert into instructor values (22222, 'Einstein', 'Physics',  95000);
@@ -701,9 +701,27 @@ constraint p_sal check(value >= 19000.00)
 alter table prueba
 alter column salario set data type salario_anual
 
+-- aaaaaaaaaaaaaaaaaa.
 select * from department
 create domain prueba_sal numeric (15, 1)
 constraint p_sal check(value >= 19000.00)
 
 alter table department
 alter column budget set data type prueba_sal
+
+-- aaaaaaaaaaaaaaaaaa.
+'''tenes que borrar las vistas para poder modificar las columnas'''
+drop view faculty
+create domain nombre_persona varchar(40) not null
+
+alter table instructor
+alter column name set data type nombre_persona
+
+-- pata
+select * from instructor
+create type cities_list as enum ('Neiva York', 'Tumaco', 'Barrancabermeja')
+
+alter table instructor
+add column city cities_list
+
+insert into instructor values (13434, 'Yoongi', 'Comp. Sci.',  65000, null, null, null, null, null, 'Tumaco');
