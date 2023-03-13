@@ -41,3 +41,19 @@ begin
 	return pres;
 end;
 $$ Language plpgsql;
+
+create function salsuma(mmm varchar(20))
+returns numeric (15,2)
+as $$
+declare
+	total float;
+begin
+	total=
+		(select sum(salary)
+		from instructor
+		where dept_name = mmm);
+	return total;
+end;
+$$ Language plpgsql;
+
+select salsuma('History')
