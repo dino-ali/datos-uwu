@@ -1,0 +1,43 @@
+create function estudiante_por_codigo(cod_est varchar (5))
+returns varchar (20)
+as $$
+declare
+	nombre varchar(20);
+begin
+	nombre=
+		(select s.name
+		from student as s
+		where s.id = cod_est);
+	return nombre;
+end;
+$$ Language plpgsql;
+select estudiante_por_codigo('45678');
+
+create function bud(pata varchar(20))
+returns numeric (12, 2)
+as $$
+declare
+	pres numeric (12, 2);
+begin
+	pres =
+		(select d.budget
+		 from department as d
+		 where d.dept_name = pata);
+	return pres;
+end;
+$$ Language plpgsql;
+
+'''si algo me queda mal no tengo que borrarla'''
+create or replace function bud(pata varchar(20))
+returns numeric (12, 2)
+as $$
+declare
+	pres numeric (12, 2);
+begin
+	pres =
+		(select d.budget
+		 from department as d
+		 where d.dept_name = pata);
+	return pres;
+end;
+$$ Language plpgsql;
