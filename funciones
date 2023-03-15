@@ -138,3 +138,35 @@ insert into takes values (98765, 'CS-101', 1, 'Fall', 2009, 'C');
 insert into takes values (98765, 'CS-315', 1, 'Spring', 2010, 'B');
 insert into takes values (98988, 'BIO-101', 1, 'Summer', 2009 ,'A');
 insert into takes values (98988, 'BIO-301', 1, 'Summer', 2010, null);
+
+															'''eJERCICIOS'''
+'''Crear una función que reciba por parámetro el nombre del estudiante. Consultar el id y nombre del estudiante que no ha tomado cursos.'''
+create or replace function pata(est varchar)
+returns table(id varchar,
+			 nombre varchar)
+as $$
+begin  
+	return query select student.id, student.name
+		from student left join takes on student.id = takes.id
+		where name = est and course_id is null;
+end;
+$$ Language plpgsql;
+
+select * from pata('Snow')
+
+'''Crear una función que reciba por parámetro el presupuesto del departamento. Consultar el nombre del departamento y presupuesto considerando los presupuestos superiores al ingresado por parámetro.'''
+create or replace function yoongi(bud numeric(12,2))
+returns table(dept_n varchar,
+			 presu numeric)
+as $$
+begin
+	return query select dept_name, budget
+						from department
+						where budget > bud;
+end;
+$$ Language plpgsql;
+select * from yoongi(14000)
+
+'''tenes que borrar los tipos de datos si te molesta'''
+alter table department
+alter column budget set data type numeric(12,2)
