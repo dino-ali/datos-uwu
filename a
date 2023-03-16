@@ -724,3 +724,121 @@ alter table instructor
 add column city cities_list
 
 insert into instructor values (13434, 'Yoongi', 'Comp. Sci.',  65000, null, null, null, null, null, 'Tumaco');
+
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+-- crear tabla registro_instructor
+create table registro_instructor(
+name varchar(20) not null,
+salary numeric(8, 2),
+fecha_modificacion date,
+salario_nuevo numeric (8, 2)
+);
+select * from instructor
+select * from registro_instructor
+
+
+-- paso 3: crear la funciòn
+create or replace function actualizar_salario()
+returns trigger as $insertar$
+declare
+begin
+	insert into registro_instructor values(old.name, old.salary, current_date, new.salary);
+	return null;
+end;
+$insertar$ language plpgsql;
+
+-- paso 4: crear el trigger actualizar_instructor
+create trigger actualizar_instructor after update
+on instructor for each row
+execute procedure actualizar_salario();
+
+-- paso 5: probar el trigger
+update instructor 
+set salary = salary*1.20
+where id =  '12121'
+
+/*Crear un trigger para registrar de la tabla estudiantes el id, nombre del estudiante, nombre del departamento y total creditos cuando se elimine, actualice e inserte
+en la misma tabla con el proposito de conservar datos antiguos y mostrar los nuevos.*/
+
+select * from student
+select * from registro_estudiantes
+create table registro_estudiantes(
+id varchar (5),
+name varchar (20),
+dept_name varchar (20),
+tot_cred numeric (3)
+);
+
+create or replace function ejercicio1()
+returns trigger as $ejercicio1$
+declare
+begin
+	insert into registro_estudiantes values(old.id, old.name, old.dept_name, old.tot_cred);
+	return null;
+end;
+$ejercicio1$ language plpgsql;
+
+create trigger borra_est after delete
+on student for each row
+execute procedure ejercicio1();
+
+delete from student
+where id = '93039'
+
+create trigger insert_est after insert
+on student for each row
+execute procedure ejercicio1();
+
+insert into student values ('93039', 'yoongi', 'Music', 23)
+
+--------------------------------------------------------aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+create or replace function ejercicio2()
+returns trigger as $ejercicio2$
+declare
+begin
+	insert into registro_estudiantes values(new.id, new.name, new.dept_name, new.tot_cred);
+	return null;
+end;
+$ejercicio2$ language plpgsql;
+
+
+/*ingresar datos en la tabla movimiento, los datos pueden ser de 2 tipos (E) que significa entrada y (S) que significa salida.
+Cuando se ingrese un registro en la tabla movimiento, un trigger debe dispararse para que se creee una tupla en la tabla saldos y registre la opecación matematica
+correcta*/
+create table movimiento(
+	idmovimiento serial primary key,
+	fecha timestamp NOT null,
+	codigoproducto int NOT null,
+	tipomovimiento varchar(1) NOT null,
+	cantidad int not null,
+	valor int NOT null
+);
+
+create table saldos(
+	idsaldo serial primary key,
+	codigoproducto int NOT null,
+	fecha timestamp NOT null,
+	nuevosaldo int NOT null
+);
+
+
+create or replace function actualizar_saldo() returns trigger as $body$
+declare 
+	ultimosaldo int=0;
+	registros int=0;
+begin
+	select count(1) into registros from saldos where codigoproducto=new.codigoproducto;
+	if registros>0 then 
+		select nuevosaldo into ultimosaldo from saldos where idsaldo=(select max(idsaldo) from saldos where codigoproducto=new.codigoproducto);
+	end if;
+	if new.tipomovimiento='E' then
+		ultimosaldo=ultimosaldo+new.cantidad;
+	else
+		ultimosaldo=ultimosaldo - new.cantidad;
+	end if;
+	insert into saldos(codigoproducto, fecha, nuevosaldo) values (new.codigoproducto, current_timestamp, ultimosaldo);
+	return new;
+end;
+$body$ language plpgsql;
+
+create trigger actualizar_valores before insert
