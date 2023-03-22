@@ -899,3 +899,85 @@ update autor
 set edad = (current_date - fecha_nacimiento) / 365
 where id =  1
 
+
+-- Crear un trigger que SOLO se dispare cuando se incremente el numero total de creditos en un 50% de los estudiantes 
+-- Registar los datos necesarios (nombre, departamento y los creditos actualizados)
+
+
+-- crear tabla registro_instructor
+create table registro_estd(
+name varchar(40),
+dept_name varchar(40),
+creditos numeric(3)
+);
+drop table registro_estd
+
+
+
+select * from student
+select * from registro_estd
+
+
+-- paso 3: crear la funciòn
+create or replace function incrementar_cred()
+returns trigger as $incrementar$
+declare
+begin
+	insert into registro_estd values(new.name, new.dept_name, new.tot_cred);
+	return null;
+end;
+$incrementar$ language plpgsql;
+
+-- paso 4: crear el trigger actualizar_instructor
+create trigger inc before update
+on student for each row
+execute procedure incrementar_cred();
+drop trigger inc on student
+
+
+-- paso 5: probar el trigger
+update student 
+set tot_cred = tot_cred*1.50
+where id = '44553'
+
+
+-- ARREGLAR EL CONDICIONAL DE 50%
+
+
+
+-- ************************************************************************************************************************************************************************************
+
+
+-- cuando se elimine una tupla de la tabla de cursos se registre en la nueva tabla
+
+create table registro_cou(
+course_id varchar(7),
+title varchar(50),
+dept_name varchar(20),
+credits numeric(2,0)
+);
+drop table registro_cou
+
+select * from course
+select * from registro_cou
+
+
+-- paso 3: crear la funciòn
+create or replace function borra()
+returns trigger as $si$
+declare
+begin
+	insert into registro_cou values(old.course_id, old.title, old.dept_name, old.credits);
+	return null;
+end;
+$si$ language plpgsql;
+
+-- paso 4: crear el trigger actualizar_instructor
+create trigger borrarborrar before delete
+on course for each row
+execute procedure borra();
+drop trigger borrarborrar on course
+
+
+-- paso 5: probar el trigger
+delete from course where dept_name = 'Biology'
