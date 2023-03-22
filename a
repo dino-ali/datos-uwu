@@ -842,3 +842,60 @@ end;
 $body$ language plpgsql;
 
 create trigger actualizar_valores before insert
+
+
+
+-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+create table autor(
+	id int, 
+	nombre character varying (30) not null,
+	fecha_nacimiento date not null,
+	genero char(2) not null,
+	primary key (id)
+);
+
+insert into autor (id, nombre,fecha_nacimiento,genero)
+	values (1, 'Gabriel Garcia Marquez', '6/3/1973','M'),
+		   (2,  'Franz Kafka', '3/7/1983','M'),
+		   (3, 'Jorge Luis Borges','24/8/1982','M'),
+		   (4, 'Isabel Allende', '5/4/1980','F'),
+		   (5, 'Rosa Montero','9/10/1970','F'),
+		   (6, 'Ana Milena Robles','3/7/1990','NB'),
+		   (7, 'Andres Diaz','5/1/1992','NB');
+		   
+		   
+-- crear tabla registro_instructor
+create table informacion_autor(
+	nombre character varying (30) not null,
+	fecha_nacimiento date not null,
+	edad int
+);
+
+select * from autor
+select * from informacion_autor
+
+alter table autor 
+add edad int;
+
+
+-- paso 3: crear la funciòn
+create or replace function calcular_edad()
+returns trigger as $calcular$
+declare
+begin
+	insert into informacion_autor values(old.nombre, old.fecha_nacimiento, (current_date - old.fecha_nacimiento) / 365);
+	return null;
+end;
+$calcular$ language plpgsql;
+
+-- paso 4: crear el trigger actualizar_instructor
+create trigger busca after update
+on autor for each row
+execute procedure calcular_edad();
+drop trigger busca on autor
+
+-- paso 5: probar el trigger
+update autor 
+set edad = (current_date - fecha_nacimiento) / 365
+where id =  1
+
