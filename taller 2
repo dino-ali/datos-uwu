@@ -44,3 +44,54 @@ where eda>26
 
 insert into actor values (7, 'Miyamizu Mitsuha', 'Mujer', '28/4/1996')
 insert into protagonizar values(1, 7)
+
+
+														punto 2.
+'''Cantidad de actores hombres que protagonizaron películas del productor Warner y
+que fueron registradas antes del 2020.'''
+select count(actor.genero)
+from ((((actor join protagonizar on actor.id = protagonizar.id_actor) join pelicula on protagonizar.codigo_pelicula = pelicula.codigo) join producir on pelicula.codigo = producir.codigo_pelicula) join productor on producir.codigo_productor = productor.codigo)
+where productor.nombre = 'patrik andersson' and pelicula.ano < 2020 and actor.genero = 'hombre'
+
+
+'''Nombre de los actores que no han protagonizado películas en el 2022. Mostrar los
+datos de forma ascendente.'''
+select actor.nombre
+from ((actor join protagonizar on actor.id = protagonizar.id_actor) join pelicula on protagonizar.codigo_pelicula = pelicula.codigo)
+where pelicula.ano != 2017
+order by actor.nombre asc
+
+
+'''Datos del (los) trailer de películas protagonizadas por el actor Tom Cruise.'''
+select trailer.*
+from (((actor join protagonizar on actor.id = protagonizar.id_actor) join pelicula on protagonizar.codigo_pelicula = pelicula.codigo) join trailer on pelicula.codigo = trailer.codigo_pelicula)
+where actor.nombre = 'anya taylor-joy.'
+
+
+'''Datos de los productores que no tienen registradas películas.'''
+insert into productor values(7, 'steven spielberg')
+select productor.*
+from productor 
+where productor.codigo not in (select codigo_productor from producir)
+							  
+select productor.*
+from productor left outer join producir on productor.codigo = producir.codigo_productor
+where producir.codigo_productor is null
+
+
+'''Todos los datos de los actores que han protagonizado películas registradas por el
+productor Warner'''
+select actor.*
+from ((((actor join protagonizar on actor.id = protagonizar.id_actor) join pelicula on protagonizar.codigo_pelicula = pelicula.codigo) join producir on pelicula.codigo = producir.codigo_pelicula) join productor on producir.codigo_productor = productor.codigo)
+where productor.nombre = 'patrik andersson'
+
+
+'''Datos de las películas que no han sido protagonizadas por Tom Cruise, ni Brad Pitt.'''
+select distinct pelicula.*
+from ((actor join protagonizar on actor.id = protagonizar.id_actor) join pelicula on protagonizar.codigo_pelicula = pelicula.codigo)
+where protagonizar.codigo_pelicula not in (select codigo_pelicula
+										  from actor join protagonizar on actor.id = protagonizar.id_actor
+										  where actor.nombre = 'florence pugh')
+
+
+select * from actor
