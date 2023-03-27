@@ -225,3 +225,140 @@ with recursive descent AS(
 *
 from 
 	descent;
+
+
+-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+create table territorio(
+	id int,
+	nombre varchar(50) not null,
+	primary key (id)
+);
+
+
+create table region (
+	id_territorio int,
+	id_territorio1 int,
+	foreign key (id_territorio) references territorio,
+	foreign key (id_territorio1) references territorio
+);
+
+
+insert into territorio values (10, 'Globo Terraqueo'),
+							   (11, 'Europa'),
+							   (12, 'America'),
+							   (13, 'Asia'),
+							   (14, 'Africa'),
+							   (15, 'Colombia'),
+							   (16, 'Bogota'),
+							   (17, 'Paris'),
+							   (18, 'Francia'),
+							   (19, 'Rio de Janeiro'),
+							   (20, 'Marruecos'),
+							   (21, 'Medellin'),
+							   (22, 'China'),
+							   (23, 'Shanghai'),
+							   (24, 'Brasil'),
+							   (25, 'Kenia'),
+							   (26, 'Pekin'),
+							   (27, 'Mombasa'),
+							   (28, 'Estados Unidos'),
+							   (29, 'Rabat'),
+							   (30, 'Miami')
+							   
+insert into region values (11,10),
+						  (12,10),
+						  (13,10),
+						  (14,10),
+						  (15,12),
+						  (18,11),
+						  (16,15),
+						  (16,12),
+						  (17,18),
+						  (17,11),
+						  (19,24),
+						  (19,12),
+						  (28,12),
+						  (24,12),
+						  (20,14),
+						  (22,13),
+						  (25,14),
+						  (21,15),
+						  (21,12),
+						  (23,22),
+						  (26, 22),
+						  (26, 13),
+						  (27, 25),
+						  (27, 14),
+						  (29, 20),
+						  (29, 14),
+						  (30, 28),
+						  (30, 12)
+						  
+/*1. Obtener los elementos del territorio del cual depende Colombia*/
+with recursive colo AS(
+	select 
+		id_territorio,
+		id_territorio1
+	from 
+		region r
+	where 
+		id_territorio in (
+			select id 
+			from territorio
+			where nombre = 'Colombia'
+		)
+	UNION 
+		select 
+			r.id_territorio,
+			r.id_territorio1
+		from
+			region as r
+		inner join colo c on c.id_territorio1 = r.id_territorio
+) Select *
+from colo;						
+
+/*2. Obtener los elementos que corresponden al Continente Americano*/
+with recursive cont AS(
+	select 
+		id_territorio,
+		id_territorio1
+	from 
+		region r
+	where 
+		id_territorio1 in (
+			select id 
+			from territorio
+			where nombre = 'America'
+		)
+	UNION 
+		select 
+			r.id_territorio,
+			r.id_territorio1
+		from
+			region as r
+		inner join cont c on c.id_territorio = r.id_territorio1
+) Select *
+from cont;						
+
+/*3. Obtener los elementos del territorio del cual depende Bogota*/
+with recursive colo AS(
+	select 
+		id_territorio,
+		id_territorio1
+	from 
+		region r
+	where 
+		id_territorio in (
+			select id 
+			from territorio
+			where nombre = 'Bogota'
+		)
+	UNION 
+		select 
+			r.id_territorio,
+			r.id_territorio1
+		from
+			region as r
+		inner join colo c on c.id_territorio1 = r.id_territorio
+) Select *
+from colo;						
