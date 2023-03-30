@@ -1,0 +1,39 @@
+''' 1. Elaborar una vista en la que se obtengan todos los datos de los huéspedes que realizaron reservas entre el 1 de enero y 15 de febrero de 2023.'''
+create view hues_dat as
+select huesped.*
+	from huesped join reserva on huesped.cedula = reserva.cedula_huesped
+	where reserva.fecha_ingreso between '01/01/2023' and '15/02/2023'
+
+select * from hues_dat
+
+
+''' 2. Usando operadores JOIN obtener el nombre y el teléfono de los hoteles que no registraron reservas y el nombre comienza por m.'''
+select nombre, telefono
+	from hotel join reserva on hotel.nit = reserva.nit_hotel
+	where hotel.nit not in(select nit_hotel 
+						   from reserva) 
+	and hotel.nombre like '%M'
+
+
+''' 3. Validar que las reservas no se puedan registrar antes de la fecha actual. Utilizar restricciones de integridad.'''
+alter table reserva
+add constraint fecha_min
+check(fecha_ingreso > current_date)
+
+
+''' 4. Actualizar la tabla reserva para que sea posible registrar si el huésped diligenció o no, una única encuesta de satisfacción, de tal forma que sólo se admitan los datos Si y No. Utilizar definición de tipos de datos de usuario.'''
+create type encuesta as enum ('Si', 'No')
+
+alter table reserva
+add column encuesta_satisfaccion encuesta
+
+''' 5. Usando operadores JOIN obtener el nombre del huésped, el nombre del administrador, el nombre del hotel, la fecha y hora de las reservas realizadas por más de 10 días.'''
+select huesped.nombre as huesped, administrador.nombre as administrador, hotel.nombre as hotel, reserva.fecha_ingreso as fecha, reserva.hora_ingreso as hora
+from ((reserva join huesped on reserva.cedula_huesped = huesped.cedula) join administrador on reserva.cedula_administrador = administrador.cedula) join hotel on reserva.nit_hotel = hotel.nit
+where reserva.numero_dias > 10
+
+
+''' 6. Crear un role/usuario denominado Administrador que tenga permiso de ingreso con la clave ‘admin*12’ que pueda agregar y modificar los datos de las reservas.'''
+create role Administrador with login password 'admin*12'
+grant insert, update on reserva to Administrador
+
