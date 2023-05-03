@@ -1,0 +1,16 @@
+create table datos(
+	nombre_vendedor varchar(60),
+	cod_vehiculo int,
+	nombre_vehiculo varchar(60),
+	valor_venta numeric(10, 2),
+	cantidad int,
+	valor_venta_neto numeric(10, 2),
+	comision_vendedor numeric(10, 2),
+	fecha_venta date
+);
+
+copy
+	datos(nombre_vendedor, cod_vehiculo, nombre_vehiculo, valor_venta, cantidad, valor_venta_neto, comision_vendedor, fecha_venta)
+	from 'C:\Users\Public\Datos.csv' delimiter ';' csv header;
+
+select * from datos
