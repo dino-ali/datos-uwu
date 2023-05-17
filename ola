@@ -1,0 +1,240 @@
+create table pelicula(
+  codigo int,
+  titulo varchar(30) not null,
+  estudio int,
+  ano int,
+  duracion int,
+  genero varchar(30),
+  presupuesto numeric(10, 2),
+  primary key(codigo));
+
+create table productor(
+  codigo int,
+  nombre varchar(30) not null,
+  primary key(codigo));
+
+create table actor(
+  id int,
+  nombre varchar(30) not null,
+  genero varchar(30),
+  fecha_nacimiento date,
+  primary key(id));
+
+create table producir(
+  codigo_pelicula int,
+  codigo_productor int,
+  primary key(codigo_pelicula, codigo_productor),
+  foreign key (codigo_pelicula) references pelicula(codigo),
+  foreign key (codigo_productor) references productor(codigo)
+ );
+
+create table trailer(
+  codigo int,
+  duracion int,
+  codigo_pelicula int,
+  primary key (codigo, codigo_pelicula),  
+  foreign key (codigo_pelicula) references pelicula(codigo)
+ );
+
+create table protagonizar(
+  codigo_pelicula int,
+  id_actor int,
+  primary key(codigo_pelicula, id_actor),
+  foreign key (codigo_pelicula) references pelicula(codigo),
+  foreign key (id_actor) references actor(id)
+);
+
+create table director(
+	id_actor int ,
+	director int ,
+	primary key (id_actor, director),
+	foreign key (id_actor) references actor,
+	foreign key (director) references actor
+);
+
+insert into actor values (10, 'Mel Gibson', 'hombre', '17/10/1998');
+insert into actor values (20, 'Sharone Stone', 'mujer', '17/08/1998');
+insert into actor values (30, 'Demi Moore', 'hombre', '18/10/1995');
+insert into actor values (40, 'Bruce Willis', 'hombre', '18/10/1995');
+insert into actor values (50, 'Antony Hopkins', 'hombre', '25/04/1990');
+insert into actor values (60, 'Nicholas Cage', 'hombre', '10/10/1996');
+insert into actor values (70, 'Sean Connery', 'hombre', '01/04/1993');
+insert into actor values (80, 'Angelina Jolie', 'mujer', '26/05/1992');
+insert into actor values (90, 'Brad Pitt', 'hombre', '14/08/1995');
+insert into actor values (100, 'Will Smith', 'hombre', '12/10/1995');
+insert into actor values (110, 'Dwayne Johnson', 'hombre', '28/10/1995');
+insert into actor values (120, 'Johnny Depp', 'hombre', '25/10/1995');
+insert into actor values (130, 'Clint Eastwood', 'hombre', '15/10/1995');
+insert into actor values (140, 'Meryl Streep', 'mujer', '18/10/1995');
+insert into actor values (150, 'Jack Nicholson', 'hombre', '20/10/1995');
+insert into actor values (160, 'Benicio del Toro', 'hombre', '24/10/1995');
+insert into actor values (170, 'Morgan Freeman', 'hombre', '20/10/1995');
+insert into actor values (180, 'Amy Adams', 'mujer', '26/10/1995');
+insert into actor values (190, 'Eddie Murphy', 'hombre', '24/10/1995');
+insert into actor values (200, 'Anne Hathaway', 'mujer', '05/10/1995');
+insert into actor values (0, '', '');
+
+insert into director values (10,0);
+insert into director values (80,0);
+insert into director values (130,0);
+insert into director values (160,0);
+insert into director values (20,10);
+insert into director values (30,50);
+insert into director values (40,130);
+insert into director values (50,190);
+insert into director values (50,10);
+insert into director values (60,80);
+insert into director values (70,130);
+insert into director values (90,130);
+insert into director values (100,40);
+insert into director values (100,10);
+insert into director values (110,160);
+insert into director values (120,150);
+insert into director values (120,160);
+insert into director values (140,180);
+insert into director values (140,80);
+insert into director values (150,70);
+insert into director values (150,130);
+insert into director values (170,80);
+insert into director values (180,190);
+insert into director values (190,160);
+insert into director values (200,40);
+insert into director values (200,160);
+
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1002, 'Bajos Instintos', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+--1
+--a
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		director in (
+			select id 
+			from actor
+			where nombre = 'Benicio del Toro'
+		)
+	UNION 
+		select 
+			d.id_actor,
+			d.director
+		from
+			director as d
+		inner join antepasa a on d.director = a.director
+) Select * from antepasa;
+
+--b
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		id_actor in (
+			select id 
+			from actor
+			where nombre = 'Antony Hopkins'
+		)
+	UNION 
+		select 
+			d.id_actor,
+			d.director
+		from
+			director as d
+		inner join antepasa a on d.id_actor = a.id_actor
+) Select * from antepasa;
+
+--c
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		id_actor in (
+			select id 
+			from actor
+			where nombre = 'Eddie Murphy') or director in (select id 
+															from actor
+															where nombre = 'Eddie Murphy')
+	UNION 
+		select 
+			a.id_actor,
+			a.director
+		from
+			director as d
+		inner join antepasa a on d.id_actor = a.id_actor
+) Select * from antepasa;
+
+
+-- d
+
+
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		id_actor in (
+			select id 
+			from actor
+			where nombre = 'Amy Adams') or director in (select id 
+												from actor
+												where nombre = 'Amy Adams')
+	UNION 
+		select 
+			d.id_actor,
+			d.director
+		from
+			director as d
+		inner join antepasa a on d.id_actor = a.id_actor
+) Select * from antepasa;
+
+
+-- e)
+
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		id_actor in (
+			select id 
+			from actor
+			where nombre = 'Anne Hathaway'
+		)
+	UNION 
+		select 
+			d.id_actor,
+			d.director
+		from
+			director as d
+		inner join antepasa a on d.id_actor = a.id_actor
+) Select * from antepasa;
+
+
+-- 2. a)
+
