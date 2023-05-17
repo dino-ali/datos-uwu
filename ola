@@ -102,11 +102,11 @@ insert into director values (200,40);
 insert into director values (200,160);
 
 insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
-insert into pelicula values(1002, 'Bajos Instintos', 1, 1995, 177, 'drama historico', 72000000);
-insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
-insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
-insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
-insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
+insert into pelicula values(1002, 'Bajos Instintos', 2, 1992, 127, 'suspense', 49000000);
+insert into pelicula values(1003, 'Una propuesta Indecente', 1, 1993, 117, 'drama, romantico', 38000000);
+insert into pelicula values(1004, 'Duro de matar', 3, 1988, 131, 'accion', 28000000);
+insert into pelicula values(1005, 'Hannibal', 4, 2001, 131, 'Terror, suspenso y drama', 87000000);
+insert into pelicula values(1001, 'Contracara', 1, 1997, 177, 'drama historico', 72000000);
 insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
 insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
 insert into pelicula values(1001, 'Corazòn Valiente', 1, 1995, 177, 'drama historico', 72000000);
