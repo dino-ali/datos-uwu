@@ -244,9 +244,9 @@ where director in(
 		from actor
 		where nombre = 'Benicio del Toro')
 UNION
-	select d.id_actor, d.director
+	select b.id_actor, b.director
 	from director as d
-	inner join benicio_dirigio as b on b.id_actor = d.director
+	inner join benicio_dirigio as b on b.director = d.id_actor
 ) 
 select *
 from benicio_dirigio;
@@ -260,9 +260,9 @@ where id_actor in(
 		from actor
 		where nombre = 'Antony Hopkins')
 UNION
-	select d.id_actor, d.director
+	select b.id_actor, b.director
 	from director as d
-	inner join antony_fue_dirigido as b on d.id_actor = b.director
+	inner join antony_fue_dirigido as b on d.director = b.id_actor
 ) 
 select *
 from antony_fue_dirigido;
@@ -273,13 +273,41 @@ select * from director
 where id_actor in(select id from actor where nombre = 'Eddie Murphy') 
 	or
 	  director in(select id from actor where nombre = 'Eddie Murphy')
+	
+	
 union
+	
+	
+	
 select d.* 
 from director as d
 inner join eddie_historial as ed
 on ed.director = d.id_actor or ed.id_actor = d.director)
 select * 
 from eddie_historial;
+
+
+with recursive antepasa AS(
+	select 
+		id_actor,
+		director
+	from 
+		director d
+	where 
+		id_actor in (
+			select id 
+			from actor
+			where nombre = 'Eddie Murphy') or director in (select id 
+															from actor
+															where nombre = 'Eddie Murphy')
+	UNION 
+		select 
+			a.id_actor,
+			a.director
+		from
+			director as d
+		inner join antepasa a on d.id_actor = a.id_actor
+) Select * from antepasa;
 
 -- Obtener los actores dirigidos por Amy Adams y los directores con los que trabajó
 with recursive amy_historial as (
@@ -357,6 +385,19 @@ group by grouping sets((año, genero, duracion),
 					   ()
    );
 
+select genero, año, sum(presupuesto)
+from pelicula
+group by grouping sets((año, genero),
+					   (genero, año),
+					   (genero),
+					   (año),
+					   ()
+);
+					 
+	
+	
+	
+	
 -- Utilizando CUBE, contar los actores agrupados por género y año de nacimiento
 select genero, extract(year from fecha_nacimiento), count(id)
 from actor
